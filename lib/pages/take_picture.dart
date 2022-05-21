@@ -1,8 +1,16 @@
+import 'package:collection_memory/pages/display_picture.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 
+class TakePicturePageArgs {
+  final String collectionName;
+
+  TakePicturePageArgs(this.collectionName);
+}
+
 class TakePicturePage extends StatefulWidget {
   const TakePicturePage(this.cameras, {Key? key}) : super(key: key);
+  static const String pageRoute = '/take_photo';
   final List<CameraDescription> cameras;
 
   @override
@@ -32,6 +40,9 @@ class _TakePicturePageState extends State<TakePicturePage> {
 
   @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)!.settings.arguments as TakePicturePageArgs;
+
     if (!controller.value.isInitialized) {
       return Container();
     }
@@ -42,7 +53,14 @@ class _TakePicturePageState extends State<TakePicturePage> {
         onPressed: () async {
           try {
             final image = await controller.takePicture();
-            print(image.path);
+            await Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (ctx) => DisplayPicturePage(
+                  imagePath: image.path,
+                  dirName: args.collectionName,
+                ),
+              ),
+            );
           } catch (error) {
             print(error);
           }

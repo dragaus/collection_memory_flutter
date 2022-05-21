@@ -1,3 +1,5 @@
+import 'package:collection_memory/pages/collection_page.dart';
+import 'package:collection_memory/pages/create_collection.dart';
 import 'package:collection_memory/pages/home.dart';
 import 'package:collection_memory/pages/take_picture.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +25,9 @@ class CollectionMemoryApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (ctx) => const HomePage(),
-        '/take_photo': (ctx) => TakePicturePage(cameras)
+        TakePicturePage.pageRoute: (ctx) => TakePicturePage(cameras),
+        CreateCollectionPage.pageRoute: (ctx) => const CreateCollectionPage(),
+        CollectionPage.pageRoute: (ctx) => const CollectionPage(),
       },
     );
   }
